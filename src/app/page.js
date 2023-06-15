@@ -7,15 +7,19 @@ import { HomeScreen } from "@/components/HomeScreen";
 import About from "@/components/About";
 import ServiceWeDo from "@/components/ServiceWeDo";
 import ProjectsWork from "@/components/ProjectsWork";
+import InfoBox from "@/components/InfoBox";
+import OurClient from "@/components/OurClients";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
+    <main>
       <NavBar styles={styles}></NavBar>
-      <HomeScreen></HomeScreen>
+      <HomeScreen styles={styles}></HomeScreen>
       <About></About>
-      <ServiceWeDo> </ServiceWeDo>
-      <ProjectsWork> </ProjectsWork>
+      <ServiceWeDo styles={styles}> </ServiceWeDo>
+      <ProjectsWork styles={styles}> </ProjectsWork>
+      <InfoBox styles={styles}></InfoBox>
+      <OurClient></OurClient>
     </main>
   );
 }

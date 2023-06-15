@@ -15,10 +15,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-
+import useScrollTrigger from '@mui/material/useScrollTrigger';
 import logo from "../assests/logo.png";
 import Image from "next/image";
-import { Grid } from "@mui/material";
 
 const drawerWidth = 240;
 const navItems = ["HOME", "SERVICES", "PROJECTS", "CONTACT US"];
@@ -53,30 +52,32 @@ function NavBar(props) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar color="default" component="nav">
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
-            <Image src={logo}></Image>
-          </Box>
+      {/* <ElevationScroll {...props}> */}
+        <AppBar position="sticky" color="transparent" component="nav">
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: "none" } }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
+              <Image src={logo}></Image>
+            </Box>
 
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map((item) => (
-              <Button key={item} sx={{ color: "#a59e9d" }}>
-                {item}
-              </Button>
-            ))}
-          </Box>
-        </Toolbar>
-      </AppBar>
+            <Box sx={{ display: { xs: "none", sm: "block" } }}>
+              {navItems.map((item) => (
+                <Button key={item} sx={{ color: "#a59e9d" }}>
+                  {item}
+                </Button>
+              ))}
+            </Box>
+          </Toolbar>
+        </AppBar>
+      {/* </ElevationScroll> */}
       <Box component="nav">
         <Drawer
           container={container}
@@ -97,13 +98,33 @@ function NavBar(props) {
           {drawer}
         </Drawer>
       </Box>
-      <Box component="main" sx={{ p: 3 }}>
-        <Toolbar />
-        <Typography>Lorem ipsum</Typography>
-      </Box>
     </Box>
   );
 }
 
+function ElevationScroll(props) {
+  const { children, window } = props;
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+    target: window ? window() : undefined,
+  });
+
+  return React.cloneElement(children, {
+    elevation: trigger ? 4 : 0,
+  });
+}
+
+ElevationScroll.propTypes = {
+  children: PropTypes.element.isRequired,
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window: PropTypes.func,
+};
 
 export default NavBar;
